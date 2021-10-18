@@ -2,13 +2,14 @@ class WordGuesserGame
 
   # add the necessary class methods, attributes, etc. here
   # to make the tests in spec/wordguesser_game_spec.rb pass.
-
+  attr_accessor :word, :guesses, :wrong_guesses, :working_word
   # Get a word from remote "random word" service
 
   def initialize(word)
     @word = word
+    @guesses = ''
     @wrong_guesses = ''
-    @word_with_guesses = ''
+    @working_word = word.split('').each{|a| a.replace('-')}
   end
 
   # You can test it by installing irb via $ gem install irb
@@ -24,22 +25,26 @@ class WordGuesserGame
     }
   end
 
-  def guess_a_character(c)
-    if c=='b'
-      @word_with_guesses='b--b--b--'
+  def guess(letter)
+    raise ArgumentError.new("Expected single alphabetical letter. Got nil.") if letter == nil
+    raise ArgumentError.new("Expected single alphabetical letter. Got #{letter}.") unless letter.match(/\A[a-zA-Z]\z/)
+    letter = letter.downcase
+    if !self.guesses.include?(letter) and !self.wrong_guesses.include?(letter)
+      if word.include?(letter)
+        self.guesses << letter
+        word.split('').each_index {|a| if word[a].match(letter)
+                              self.working_word[a]=word[a] end}
+      else
+        self.wrong_guesses << letter
+      end
     else
-      @word_with_guesses="-------"      
+      false
     end
-
-
   end
 
-  def wrong_guesses
-    return @wrong_guesses
-  end
 
   def word_with_guesses
-    return @word_with_guesses
+    return self.working_word.join
   end
 
 
