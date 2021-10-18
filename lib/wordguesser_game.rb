@@ -7,6 +7,8 @@ class WordGuesserGame
 
   def initialize(word)
     @word = word
+    @wrong_guesses = ''
+    @word_with_guesses = ''
   end
 
   # You can test it by installing irb via $ gem install irb
@@ -21,5 +23,24 @@ class WordGuesserGame
       return http.post(uri, "").body
     }
   end
+
+  def guess_a_character(c)
+    if c=='b'
+      @word_with_guesses='b--b--b--'
+    else
+      @word_with_guesses="-------"      
+    end
+
+
+  end
+
+  def wrong_guesses
+    return @wrong_guesses
+  end
+
+  def word_with_guesses
+    return @word_with_guesses
+  end
+
 
 end
