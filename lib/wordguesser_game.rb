@@ -47,5 +47,15 @@ class WordGuesserGame
     return self.working_word.join
   end
 
+  def check_win_or_lose
+    if !working_word.include?('-')
+      :win
+    elsif wrong_guesses.length >= 7
+      :lose
+    else
+      :play
+    end
+  end
+
 
 end
